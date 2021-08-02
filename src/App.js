@@ -1,6 +1,88 @@
 /* eslint-disable eqeqeq */
 import './App.css';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
+
+const bgStyle = css`
+  background-color: #1a1a1d;
+  padding-top: 30px;
+  font-family: 'Mulish', sans-serif;
+  height: 86vh;
+  width: 100%;
+  color: white;
+`;
+
+const headerStyle = css`
+  color: #c3073f;
+
+  font-size: 32px;
+`;
+
+const dateStyle = css`
+  color: white;
+`;
+
+const clockStyle = css`
+  margin-top: 30px;
+  margin-bottom: 50px;
+`;
+
+const inputStyle = css`
+  border-radius: 15px;
+  width: 150px;
+  height: 24px;
+  border: 1px solid black;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+`;
+
+const buttonStyle = css`
+  border-radius: 15px;
+  border: 1px solid black;
+  width: 80px;
+  height: 24px;
+  background-color: #c3073f;
+  color: white;
+  font-family: 'Mulish', sans-serif;
+  font-weight: 500;
+
+  margin: 20px;
+  &:hover {
+    background-color: #6f2232;
+  }
+`;
+
+const clockS2 = css`
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid white;
+  margin-top: 40px;
+`;
+
+const clockWrap = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const dropdownWrap = css`
+  margin-top: 30px;
+  color: black;
+  font-weight: 600;
+`;
+
+const dropdownStyle = css`
+  font-family: 'Mulish', sans-serif;
+  border: 1px solid black;
+  width: 200px;
+  height: 24px;
+`;
 
 function Clock(props) {
   useEffect(() => {
@@ -15,7 +97,7 @@ function Clock(props) {
 
   return (
     <div>
-      <div>{props.hasTime.toLocaleString()}</div>
+      <div css={dateStyle}>{props.hasTime.toLocaleString()}</div>
     </div>
   );
 }
@@ -53,29 +135,31 @@ function App() {
   }
 
   return (
-    <div
-      className="App"
-      style={{ backgroundColor: second >= 0 ? 'red' : 'green' }}
-    >
-      <Clock hasTime={hasTime} setHasTime={setHasTime} />
-
-      <br />
-      <br />
-      <label>
-        Enter date
-        <input
-          type="date"
-          onChange={(event) => setHasDateB(event.currentTarget.value)}
-        />
-      </label>
-      <label>
-        Enter time
-        <input
-          type="time"
-          onChange={(event) => setUserTimeB(event.currentTarget.value)}
-        />
-      </label>
+    <div className="App" css={bgStyle}>
+      <div css={headerStyle}>Countdown Timer</div>
+      <div css={clockStyle}>
+        <Clock hasTime={hasTime} setHasTime={setHasTime} />
+      </div>
+      <div>
+        <label>
+          <input
+            css={inputStyle}
+            type="date"
+            onChange={(event) => setHasDateB(event.currentTarget.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          <input
+            css={inputStyle}
+            type="time"
+            onChange={(event) => setUserTimeB(event.currentTarget.value)}
+          />
+        </label>
+      </div>
       <button
+        css={buttonStyle}
         onClick={() => {
           setHasDate(new Date(hasDateB));
           setUserTime(userTimeB);
@@ -83,10 +167,24 @@ function App() {
       >
         Submit
       </button>
-      <div>
+      <div css={clockWrap}>
+        <div
+          css={clockS2}
+          style={{ backgroundColor: second >= 0 ? '#4e4e50' : '#c3073f' }}
+        >
+          <div>
+            days: {daysGenerall > 0 ? daysGenerall : 0} hours:
+            {hours > 0 ? hours : 0} mins: {mins > 0 ? mins : 0} seconds:{' '}
+            {second > 0 ? second : 0}
+            {}
+          </div>
+        </div>
+      </div>
+      <div css={dropdownWrap}>
         <label>
           Select your time zone:{' '}
           <select
+            css={dropdownStyle}
             id="utcTime"
             onChange={(e) => {
               setOffset(e.currentTarget.value);
@@ -121,13 +219,6 @@ function App() {
             Submit
           </button>
         </div>
-      </div>
-
-      <div>
-        days: {daysGenerall > 0 ? daysGenerall : 0} hours:
-        {hours > 0 ? hours : 0} mins: {mins > 0 ? mins : 0} seconds:{' '}
-        {second > 0 ? second : 0}
-        {}
       </div>
     </div>
   );
